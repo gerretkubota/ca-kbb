@@ -1,19 +1,12 @@
-const DealersAndVehicles = require('dealers_and_vehicles');
+const express = require('express');
+const bodyParser = require('body-parser').json();
+// const axios = require('axios');
 
-// console.log('hi', DealersAndVehicles);
+const app = express();
+const dataRouter = require('./routes/dataRoutes');
 
-const api = new DealersAndVehicles.DataSetApi();
+app.use(bodyParser);
+dataRouter(app);
 
-// const datasetId = 'datasetId_example'; // {String}
-// const datasetId = '422cYXUK1wg';
-const datasetId = 'DyxRRiYL1wg';
-
-const callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log(`API called successfully. Returned data: ${data}`);
-    console.log(data);
-  }
-};
-api.dataSetGetCheat(datasetId, callback);
+const PORT = 5000;
+app.listen(PORT, () => console.log(`Connected to PORT ${PORT}`));
