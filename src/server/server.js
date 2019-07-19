@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser').json();
-// const axios = require('axios');
 
 const app = express();
 const dataRouter = require('./routes/dataRoutes');
