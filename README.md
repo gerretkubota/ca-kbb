@@ -6,8 +6,7 @@ Retrieve Dataset
 * Generate a datasetId from api call
 * Gather all vehicles and its info (vehicleId, year, make, model, dealerId) that consist with the datasetId from an api call and form an answer
 * When all necessary info is gathered, the results will be displayed through a table.
-* Submit the answer as a post request through another api call that will determine whether or not it has been successful,
-* if it has, it will display the amount of seconds it took to gather the info.
+* Submit the answer as a post request through another api call that will determine whether or not it has been successful, if it has, it will display the amount of seconds it took to gather the info.
 
 ## <strong>How to use</strong>
 ***
