@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+/**
+ * @description
+ * The application can be more optimal if a HashMap was utilized to look up the necessary values.
+ */
+
 export default class MainContainer extends Component {
   constructor() {
     super();
@@ -123,7 +128,14 @@ export default class MainContainer extends Component {
               const foundIndex = newAnswer.dealers.findIndex(
                 curr => curr.dealerId === info.dealerId
               );
-              newAnswer.dealers[foundIndex].vehicles.push(info);
+
+              if (
+                newAnswer.dealers[foundIndex].vehicles.findIndex(
+                  curr => curr.vehicleId === info.vehicleId
+                ) < 0
+              ) {
+                newAnswer.dealers[foundIndex].vehicles.push(info);
+              }
             } catch (err) {
               alert(err);
             }
@@ -156,7 +168,9 @@ export default class MainContainer extends Component {
       .post(`${url}/${datasetId}/answer`, answer)
       .then(res =>
         this.setState({ disableBtn: true }, () =>
-          alert(`${res.data.message} ${res.data.totalMilliseconds / 1000}`)
+          alert(
+            `${res.data.message} ${res.data.totalMilliseconds / 1000} seconds`
+          )
         )
       )
       .catch(err => alert(err));
