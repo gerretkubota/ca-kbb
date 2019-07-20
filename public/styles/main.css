@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+* {
+  box-sizing: border-box;
+
+  padding: 0;
+  margin: 0;
+
+  font-family: 'Roboto';
+}
+
+.row {
+  flex-direction: row;
+  justify-content: center;
+}
+
+.column {
+  flex-direction: column;
+  align-items: center;
+}
+
+div.app,
+div.main-container,
+div.generate-group,
+div.gatherInfo-group {
+  display: flex;
+}
+
+div.generate-group,
+div.gatherInfo-group,
+div.submit-group {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+div.app {
+  margin-top: 10px;
+  width: 100vw;
+  height: 100vh;
+}
+
+table.table-info {
+  width: 100%;
+
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid #111;
+}
+
+th {
+  border-right: 2px solid #111;
+  border-bottom: 2px solid #111;
+}
+
+th:last-child {
+  border-right: none;
+}
+th:nth-child(1),
+th:nth-child(5),
+td:nth-child(1),
+td:nth-child(5) {
+  background-color: #bbb;
+}
+
+tr.table-rows,
+input.text-field {
+  text-align: center;
+}
+
+div.main-container {
+  width: 70vw;
+  height: 70vh;
+  border: 1px solid #111;
+  background-color: #f5f5f5;
+}
+
+div.gatherInfo-box {
+  width: 70vw;
+  height: 30vh;
+
+  border-top: 2px solid #111;
+  border-left: 1px solid #111;
+  border-right: 1px solid #111;
+  border-bottom: 1px solid #111;
+}
+
+div.main-container,
+div.main-container button {
+  border-radius: 10px;
+}
+
+div.main-container button {
+  width: 150px;
+  height: 50px;
+}
+
+div.main-container button:hover {
+  background-color: lightblue;
+}
+
+div.main-container button:focus {
+  outline: none;
+}
+
+div.generate-group {
+  width: 650px;
+  justify-content: space-evenly;
+}
+
+/* div.generate-group button {
+  margin-top: 15px;
+}
+
+div.gatherInfo-group button {
+  margin-bottom: 15px;
+} */
+
+button:hover {
+  cursor: pointer;
+}
+
+input.text-field {
+  width: 200px;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+div.main-container,
+.active {
+  filter: drop-shadow(0px 0px 5px #222);
+}
