@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import _ from 'lodash';
 
 /**
  * @description
  * The application can be more optimal if a HashMap was utilized to look up the necessary values.
  */
 
+// 4sTnTaAQ1wg very long time lapse
+// 2xhFPaEQ1wg 21 sec?
 export default class MainContainer extends Component {
   constructor() {
     super();
@@ -13,12 +16,18 @@ export default class MainContainer extends Component {
     this.state = {
       url: 'http://api.coxauto-interview.com/api',
       datasetId: '',
+      prevDatasetId: '',
       allVehicleInfo: [],
       answer: { dealers: [] },
       vIdsArray: [],
       dIdsObj: {},
       disableBtn: true,
     };
+    // only allow the users to be able to gatherInfo every 25 seconds
+    this.debounceBtn = _.throttle(this.gatherInfo, 25000, {
+      leading: true,
+      trailing: false,
+    });
   }
 
   /**
@@ -45,6 +54,7 @@ export default class MainContainer extends Component {
       .then(res => {
         this.setState({
           datasetId: res.data.datasetId,
+          prevDatasetId: '',
           allVehicleInfo: [],
           answer: { dealers: [] },
           vIdsArray: [],
@@ -63,16 +73,21 @@ export default class MainContainer extends Component {
    */
   gatherInfo = e => {
     e.stopPropagation();
-
+    console.log('clicked');
     const {
       datasetId,
+      prevDatasetId,
       answer,
       allVehicleInfo,
       vIdsArray,
       dIdsObj,
       url,
     } = this.state;
-    const newAnswer = JSON.parse(JSON.stringify(answer));
+
+    const newAnswer =
+      prevDatasetId === datasetId
+        ? JSON.parse(JSON.stringify(answer))
+        : { dealers: [] };
     const newAllVehicleInfo = allVehicleInfo.slice(0);
     const newDIdsObj = { ...dIdsObj };
 
@@ -142,14 +157,15 @@ export default class MainContainer extends Component {
           })
         )
       )
-      .then(success =>
+      .then(success => {
         this.setState({
+          prevDatasetId: datasetId,
           answer: newAnswer,
           disableBtn: false,
           dIdsObj: newDIdsObj,
           allVehicleInfo: newAllVehicleInfo,
-        })
-      )
+        });
+      })
       .catch(err => this.setState({ datasetId: 'ERROR' }));
   };
 
@@ -167,11 +183,14 @@ export default class MainContainer extends Component {
     axios
       .post(`${url}/${datasetId}/answer`, answer)
       .then(res =>
-        this.setState({ disableBtn: true }, () =>
+        this.setState({ disableBtn: true }, () => {
+          console.log(answer);
           alert(
-            `${res.data.message} ${res.data.totalMilliseconds / 1000} seconds`
-          )
-        )
+            `${res.data.message} ${(res.data.totalMilliseconds / 1000).toFixed(
+              2
+            )} seconds`
+          );
+        })
       )
       .catch(err => alert(err));
   };
@@ -190,7 +209,7 @@ export default class MainContainer extends Component {
             onChange={this.handleChange}
             value={datasetId}
           />
-          <button type="button" onClick={this.gatherInfo}>
+          <button type="button" onClick={this.debounceBtn}>
             GATHER INFO
           </button>
         </div>
