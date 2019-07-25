@@ -6,9 +6,6 @@ import _ from 'lodash';
  * @description
  * The application can be more optimal if a HashMap was utilized to look up the necessary values.
  */
-
-// 4sTnTaAQ1wg very long time lapse
-// 2xhFPaEQ1wg 21 sec?
 export default class MainContainer extends Component {
   constructor() {
     super();
