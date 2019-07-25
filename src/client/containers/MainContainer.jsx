@@ -70,7 +70,7 @@ export default class MainContainer extends Component {
    */
   gatherInfo = e => {
     e.stopPropagation();
-    console.log('clicked');
+
     const {
       datasetId,
       prevDatasetId,
@@ -181,7 +181,6 @@ export default class MainContainer extends Component {
       .post(`${url}/${datasetId}/answer`, answer)
       .then(res =>
         this.setState({ disableBtn: true }, () => {
-          console.log(answer);
           alert(
             `${res.data.message} ${(res.data.totalMilliseconds / 1000).toFixed(
               2
