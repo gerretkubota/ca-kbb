@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import _ from 'lodash';
+import { throttle } from 'lodash';
 
 /**
  * @description
@@ -21,7 +21,7 @@ export default class MainContainer extends Component {
       disableBtn: true,
     };
     // only allow the users to be able to gatherInfo every 25 seconds
-    this.debounceBtn = _.throttle(this.gatherInfo, 25000, {
+    this.debounceBtn = throttle(this.gatherInfo, 25000, {
       leading: true,
       trailing: false,
     });
@@ -193,6 +193,7 @@ export default class MainContainer extends Component {
 
   render() {
     const { datasetId, answer, disableBtn } = this.state;
+
     return (
       <div className="main-container column row">
         <div className="generate-group row">
