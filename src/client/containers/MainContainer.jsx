@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { throttle } from 'lodash';
 
+import TableContainer from './TableContainer.jsx';
+
+import { getDatasetId } from '../utils/helper.js';
+
 /**
  * @description
  * The application can be more optimal if a HashMap was utilized to look up the necessary values.
@@ -43,23 +47,25 @@ export default class MainContainer extends Component {
    * the value to the datasetId state
    * Reset all values within state except for datasetId
    */
-  gatherDatasetId = e => {
+  gatherDatasetId = async e => {
     e.stopPropagation();
     const { url } = this.state;
-    axios
-      .get(`${url}/datasetid`)
-      .then(res => {
-        this.setState({
-          datasetId: res.data.datasetId,
-          prevDatasetId: '',
-          allVehicleInfo: [],
-          answer: { dealers: [] },
-          vIdsArray: [],
-          dIdsObj: {},
-          disableBtn: true,
-        });
-      })
-      .catch(err => this.setState({ dataSetId: 'ERROR' }));
+
+    try {
+      const result = await getDatasetId(url);
+
+      this.setState({
+        datasetId: result.data.datasetId,
+        prevDatasetId: '',
+        allVehicleInfo: [],
+        answer: { dealers: [] },
+        vIdsArray: [],
+        dIdsObj: {},
+        disableBtn: true,
+      });
+    } catch (err) {
+      this.setState({ dataSetId: 'ERROR' });
+    }
   };
 
   /**
@@ -212,37 +218,7 @@ export default class MainContainer extends Component {
         </div>
         <div className="gatherInfo-group column">
           <div className="gatherInfo-box">
-            <table className="table-info">
-              <thead>
-                <tr className="table-rows table-header">
-                  <th>Vehicle ID</th>
-                  <th>Year</th>
-                  <th>Make</th>
-                  <th>Model</th>
-                  <th>Dealer ID</th>
-                  <th>Dealer Name</th>
-                </tr>
-              </thead>
-              <tbody>
-                {answer.dealers.length
-                  ? answer.dealers.map(dealer =>
-                      dealer.vehicles.map(v => (
-                        <tr
-                          className="table-rows"
-                          key={`${v.vehicleId}${v.dealerId}`}
-                        >
-                          <td>{v.vehicleId}</td>
-                          <td>{v.year}</td>
-                          <td>{v.make}</td>
-                          <td>{v.model}</td>
-                          <td>{v.dealerId}</td>
-                          <td>{dealer.name}</td>
-                        </tr>
-                      ))
-                    )
-                  : null}
-              </tbody>
-            </table>
+            <TableContainer answer={answer} />
           </div>
         </div>
         <div className="submit-group">
