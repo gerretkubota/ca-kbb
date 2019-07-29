@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { throttle } from 'lodash';
 
 import TableContainer from './TableContainer.jsx';
+import Loading from '../components/Loading.jsx';
 
 import {
   getDatasetId,
@@ -26,6 +27,7 @@ export default class MainContainer extends Component {
       vIdsArray: [],
       dIdsObj: {},
       disableBtn: true,
+      loading: false,
     };
     // only allow the users to be able to gatherInfo every 25 seconds
     this.debounceBtn = throttle(this.gatherInfo, 25000, {
@@ -82,6 +84,8 @@ export default class MainContainer extends Component {
   gatherInfo = async e => {
     e.stopPropagation();
 
+    this.setState({ loading: true });
+
     const { datasetId, prevDatasetId, answer, vIdsArray, dIdsObj } = this.state;
     const newAnswer =
       prevDatasetId === datasetId
@@ -103,6 +107,7 @@ export default class MainContainer extends Component {
       answer: newAnswer,
       disableBtn: false,
       dIdsObj: newDIdsObj,
+      loading: false,
     });
   };
 
@@ -133,7 +138,7 @@ export default class MainContainer extends Component {
   };
 
   render() {
-    const { datasetId, answer, disableBtn } = this.state;
+    const { datasetId, answer, disableBtn, loading } = this.state;
 
     return (
       <div className="main-container column row">
@@ -148,12 +153,13 @@ export default class MainContainer extends Component {
             value={datasetId}
           />
           <button type="button" onClick={this.debounceBtn}>
-            GATHER INFO
+            {loading ? 'LOADING' : 'GATHER INFO'}
           </button>
         </div>
         <div className="gatherInfo-group column">
           <div className="gatherInfo-box">
-            <TableContainer answer={answer} />
+            <TableContainer answer={answer} loading={loading} />
+            {loading ? <Loading /> : null}
           </div>
         </div>
         <div className="submit-group">

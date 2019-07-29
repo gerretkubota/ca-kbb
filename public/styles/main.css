@@ -19,10 +19,17 @@
   align-items: center;
 }
 
+.center {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 div.app,
 div.main-container,
 div.generate-group,
-div.gatherInfo-group {
+div.gatherInfo-group,
+div.loading {
   display: flex;
 }
 
@@ -77,6 +84,7 @@ div.main-container {
 }
 
 div.gatherInfo-box {
+  position: relative;
   width: 70vw;
   height: 30vh;
 
@@ -109,14 +117,6 @@ div.generate-group {
   justify-content: space-evenly;
 }
 
-/* div.generate-group button {
-  margin-top: 15px;
-}
-
-div.gatherInfo-group button {
-  margin-bottom: 15px;
-} */
-
 button:hover {
   cursor: pointer;
 }
@@ -135,4 +135,15 @@ div.main-container,
 h1.title {
   margin-bottom: 20px;
   letter-spacing: 5px;
+}
+
+div.loading {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+
+  background: url('../img/spinner.gif');
+  background-position: center;
+  background-repeat: no-repeat;
 }
