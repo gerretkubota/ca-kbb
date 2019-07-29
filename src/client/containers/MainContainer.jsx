@@ -67,6 +67,7 @@ export default class MainContainer extends Component {
         vIdsArray: [],
         dIdsObj: {},
         disableBtn: true,
+        loading: false,
       });
     } catch (err) {
       this.setState({ dataSetId: 'ERROR' });
