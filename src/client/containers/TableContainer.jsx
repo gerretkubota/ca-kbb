@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import TableEntry from '../components/TableEntry.jsx';
 
-const TableContainer = ({ answer }) => (
+const TableContainer = ({ answer, loading }) => (
   <table className="table-info">
     <thead>
       <tr className="table-rows table-header">
@@ -16,7 +16,7 @@ const TableContainer = ({ answer }) => (
       </tr>
     </thead>
     <tbody>
-      {answer.dealers.length
+      {answer.dealers.length && !loading
         ? answer.dealers.map(dealer =>
             dealer.vehicles.map(v => (
               <TableEntry
@@ -37,6 +37,7 @@ const TableContainer = ({ answer }) => (
 
 TableContainer.propTypes = {
   answer: PropTypes.object,
+  loading: PropTypes.bool,
 };
 
 export default TableContainer;
